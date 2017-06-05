@@ -1,0 +1,37 @@
+<html>
+<head>
+<link rel="stylesheet" href="./css/style.css" type="text/css">
+</head>
+<body>
+<div class="filter_area">
+  <div class="input_wrap">
+    <input id="input" placeholder="Filter here..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+  </div>
+  <div class="options_warp">
+    <span class="server_sel">
+    Server: <select id="server_id">
+    </select>
+    </span>
+    <span class="max_rslts">
+    Max Results: <input id="max_res" placeholder="10" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+    </span>
+    <span class="query_button">
+      <button onclick="javascript:rs_ctrl.update_view()">Query</button>
+    </span>
+  </div>
+</div>
+<div class="disp_warp" id="view">
+<div class="disp">
+<div class="intro">
+<pre><b>Example Query</b>
+
+r.route == '2001:470::/32' // show route to 2001:470::/32
+r.as_path.includes(6939) // show route w/ AS6939 in as_path
+if(r.bgp_community) r.bgp_community.include('65443:4134') // show route w/ community 65443:4134
+</pre>
+</div>
+</div>
+</div>
+</body>
+<script src="./js/app.js"></script>
+</html>
