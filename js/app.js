@@ -23,6 +23,12 @@ var rs_ctrl = (function () {
       data: [],
       id: 1,
       ipv6: true
+    },
+    { name: 'Vultr JP (IPv4)',
+      url: 'http://141.193.21.2/routes.json',
+      data: [],
+      id: 2,
+      ipv6: false
     }
   ];
 
