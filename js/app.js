@@ -1,6 +1,12 @@
 var rs_ctrl = (function () {
 
-  var filter, _filter, view, input, serv_id, max_rslt;
+  var filter, _filter, view, input, serv_id, max_rslt, loaded = false;
+
+  view = document.getElementById('view');
+  input = document.getElementById('input');
+  serv_id = document.getElementById('server_id');
+  max_rslt = document.getElementById('max_res');
+  sid_ = document.getElementById('server_id');
 
   document.getElementById('input').addEventListener('keydown', e => { if(e.keyCode == 13) rs_ctrl.update_view() });
   document.getElementById('max_res').addEventListener('keydown', e => { if(e.keyCode == 13) rs_ctrl.update_view() });
@@ -38,7 +44,11 @@ var rs_ctrl = (function () {
       var sel = document.createElement('option');
       sel.setAttribute('value', rs.id);
       sel.innerHTML = rs.name;
-      document.getElementById('server_id').appendChild(sel);
+      if (!loaded) {
+        loaded = true;
+        sid_.innerHTML = '';
+      }
+      sid_.appendChild(sel);
     });
   });
 
@@ -62,10 +72,6 @@ var rs_ctrl = (function () {
   };
 
   var update_view = function() {
-    view = document.getElementById('view');
-    input = document.getElementById('input');
-    serv_id = document.getElementById('server_id');
-    max_rslt = document.getElementById('max_res');
     var resultHTML = document.createElement('div');
     resultHTML.className = 'disp';
     var results = get_routes(serv_id.value);
