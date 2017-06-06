@@ -6,6 +6,7 @@ var rs_ctrl = (function () {
   var serv_id = document.getElementById('server_id');
   var max_rslt = document.getElementById('max_res');
   var match_count = document.getElementById('match_count');
+  var help = document.getElementById('help');
 
   var update_rs = (rs) => {
     input.disabled = true;
@@ -147,7 +148,8 @@ var rs_ctrl = (function () {
     try {
       var rs = router_servers[server_id];
       var _res = rs.data.filter(r => eval(input.value));
-      match_count.innerHTML = rs.loaded ? _res.length + " Macthes" : 'Downloading Routing Informations...';
+      match_count.innerHTML = rs.loaded ? _res.length + ' Macthes' : 'Downloading Routing Informations...';
+      if (rs.loaded) help.style.display = _res.length > 0 ? 'none' : '';
       return _res;
     } catch (e) {
       console.error('Filter Error: ' + e);
@@ -187,7 +189,7 @@ var rs_ctrl = (function () {
       table.appendChild(tbody);
       resultHTML.appendChild(table);
     });
-    view.innerHTML = '';
+    view.removeChild(document.getElementsByClassName("disp")[0]);
     view.appendChild(resultHTML);
   };
 

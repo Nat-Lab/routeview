@@ -22,9 +22,14 @@
   </div>
 </div>
 <div class="disp_warp" id="view">
-<div class="disp">
-<div class="intro">
-<pre><b>Example Query</b>
+<div class="intro" id="help">
+<pre><b># Types</b>
+
+r.route :: String
+r.as_path :: [Integer]
+r.bgp_community :: [String]
+
+<b># Example Queries</b>
 
 /* Show route of 2001:470::/32 */
 r.route == '2001:470::/32'
@@ -41,8 +46,12 @@ r.route.netOf('106.185.35.122')
 /* Show route with community *:58453 or *:4134 */
 if(r.bgp_community) r.bgp_community.some(c =&gt; { return c.match(/:58453/) || c.match(/:4134/) })
 
+/* Show route with a prefix less than /9 */
+Number.parseInt(r.route.split('/')[1]) < 9
+
 </pre>
 </div>
+<div class="disp">
 </div>
 </div>
 </body>
