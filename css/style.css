@@ -115,6 +115,10 @@ input#max_res {
   background-color: #d3d3d3;
 }
 
+.filter_area input#input:disabled {
+  background-image: repeating-linear-gradient(-45deg, #ccc, #ccc 10px, #ededed 10px, #ededed 20px);
+}
+
 .error {
   background-color: #f25544 !important;
   color: #fff;

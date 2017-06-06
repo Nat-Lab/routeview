@@ -7,14 +7,16 @@ var rs_ctrl = (function () {
   var max_rslt = document.getElementById('max_res');
 
   var update_rs = (rs, uv) => {
+    input.disabled = true;
     fetch_data(rs.url).then(r => {
       rs.data = r;
       rs.loaded = true;
+      input.disabled = false;
       if (uv) update_view();
     });
   };
 
-  input.addEventListener('keydown', e => { if(e.keyCode == 13) rs_ctrl.update_view() });
+  input.addEventListener('keydown', e => { input.className = ''; if(e.keyCode == 13) rs_ctrl.update_view() });
   max_rslt.addEventListener('keydown', e => { if(e.keyCode == 13) rs_ctrl.update_view() });
   serv_id.addEventListener('change', () => {
     rs = router_servers[serv_id.value];
@@ -24,26 +26,82 @@ var rs_ctrl = (function () {
   String.prototype.netOf = function(ip) { return ipaddr.parse(ip).match(ipaddr.parseCIDR(this.toString())); };
 
   var router_servers = [
-    { name: 'Vultr JP (IPv6)',
-      url: 'http://141.193.21.2/routes6.json', 
+    { name: 'Hurricane Electric HK (IPv6)',
+      url: 'http://123.103.252.145/routes.json',
       data: [],
       id: 0,
       ipv6: true,
       loaded: false
     },
-    { name: 'Hurricane Electric HK (IPv6)',
-      url: 'http://123.103.252.145/routes.json',
+    { name: 'Hurricane Electric NY (IPv6)',
+      url: 'http://141.193.21.3/routes6_he.json',
       data: [],
       id: 1,
       ipv6: true,
-      loaded: false
+      loaded: false,
+      disabled: true
     },
-    { name: 'Vultr JP (IPv4)',
-      url: 'http://141.193.21.2/routes.json',
+    { name: 'Choopa JP (IPv6)',
+      url: 'http://141.193.21.2/routes6.json', 
       data: [],
       id: 2,
+      ipv6: true,
+      loaded: false
+    },
+    { name: 'Choopa JP (IPv4)',
+      url: 'http://141.193.21.2/routes.json',
+      data: [],
+      id: 3,
       ipv6: false,
       loaded: false
+    },
+    { name: 'Internap JP (IPv4)',
+      url: 'http://141.193.21.1/routes.json',
+      data: [],
+      id: 4,
+      ipv6: false,
+      loaded: false,
+      disabled: true
+    },
+    { name: 'Internap JP (IPv6)',
+      url: 'http://141.193.21.1/routes6.json',
+      data: [],
+      id: 5,
+      ipv6: true,
+      loaded: false,
+      disabled: true
+    },
+    { name: 'Devcapsule UK (IPv4)',
+      url: 'http://141.193.21.4/routes6.json',
+      data: [],
+      id: 6,
+      ipv6: false,
+      loaded: false,
+      disabled: true
+    },
+    { name: 'Devcapsule UK (IPv6)',
+      url: 'http://141.193.21.4/routes6.json',
+      data: [],
+      id: 7,
+      ipv6: true,
+      loaded: false,
+      disabled: true
+    },
+    { name: 'Choopa NY (IPv6)',
+      url: 'http://141.193.21.3/routes6.json',
+      data: [],
+      id: 8,
+      ipv6: true,
+      loaded: false,
+      disabled: true
+    },
+    { name: 'Choopa NY (IPv4)',
+      url: 'http://141.193.21.3/routes.json',
+      data: [],
+      id: 9,
+      ipv6: false,
+      loaded: false,
+      disabled: true
     }
   ];
 
@@ -74,6 +132,7 @@ var rs_ctrl = (function () {
     var sel = document.createElement('option');
     sel.setAttribute('value', rs.id);
     sel.innerHTML = rs.name;
+    if (rs.disabled) sel.disabled = true;
     serv_id.appendChild(sel);
   });
 
@@ -95,11 +154,11 @@ var rs_ctrl = (function () {
     var rs = router_servers[server_id];
     if (!rs.loaded) update_rs(router_servers[server_id], true);
     try {
-      return router_servers[server_id].data.filter(r => eval(input.value));
+      var _res = router_servers[server_id].data.filter(r => eval(input.value));
+      return _res;
     } catch (e) {
       console.error('Filter Error: ' + e);
       input.className = 'error';
-      window.setTimeout(() => { input.className = ''; }, 250);
     }
   };
 
