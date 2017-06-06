@@ -127,7 +127,7 @@ var rs_ctrl = (function () {
       tbody.appendChild(new tr([{c: 't_route', v: rou.route}]));
       tbody.appendChild(new tr([{c: 't_dhead', v: 'Via'}, {c: 't_var', v: rou.via}]));
       tbody.appendChild(new tr([{c: 't_dhead', v: 'Device'}, {c: 't_var', v: rou.dev}]));
-      tbody.appendChild(new tr([{c: 't_dhead', v: 'AS Path'}, {c: 't_var', v: rou.as_path.toString().replace(/,/g, ' ')}]));
+      tbody.appendChild(new tr([{c: 't_dhead', v: 'AS Path'}, {c: 't_var', v: rou.as_path.map(asn => `<a target="_blank" href="http://bgp.he.net/AS${asn}">AS${asn}</a>`).toString().replace(/,/g, ' ')}]));
       tbody.appendChild(new tr([{c: 't_dhead', v: 'Nexthop'}, {c: 't_var', v: rou.next_hop.toString().replace(/,/g, ' ')}]));
       if (rou.bgp_community) tbody.appendChild(new tr([{c: 't_dhead', v: 'Community'}, {c: 't_var', v: rou.bgp_community.toString().replace(/,/g, ' ')}]));
       table.appendChild(tbody);

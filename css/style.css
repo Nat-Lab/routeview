@@ -44,6 +44,10 @@ table {
 
 /* Styles */
 
+a {
+  color: #fff;
+}
+
 *,
 *:after,
 *:before {
