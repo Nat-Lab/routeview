@@ -1,15 +1,26 @@
 var rs_ctrl = (function () {
 
-  var filter, _filter, view, input, serv_id, max_rslt, loaded = false;
+  var filter, _filter;
+  var view = document.getElementById('view');
+  var input = document.getElementById('input');
+  var serv_id = document.getElementById('server_id');
+  var max_rslt = document.getElementById('max_res');
 
-  view = document.getElementById('view');
-  input = document.getElementById('input');
-  serv_id = document.getElementById('server_id');
-  max_rslt = document.getElementById('max_res');
-  sid_ = document.getElementById('server_id');
+  var update_rs = (rs, uv) => {
+    fetch_data(rs.url).then(r => {
+      rs.data = r;
+      rs.loaded = true;
+      if (uv) update_view();
+    });
+  };
 
-  document.getElementById('input').addEventListener('keydown', e => { if(e.keyCode == 13) rs_ctrl.update_view() });
-  document.getElementById('max_res').addEventListener('keydown', e => { if(e.keyCode == 13) rs_ctrl.update_view() });
+  input.addEventListener('keydown', e => { if(e.keyCode == 13) rs_ctrl.update_view() });
+  max_rslt.addEventListener('keydown', e => { if(e.keyCode == 13) rs_ctrl.update_view() });
+  serv_id.addEventListener('change', () => {
+    rs = router_servers[serv_id.value];
+    if (!rs.loaded) update_rs(router_servers[serv_id.value]);
+  });
+
   String.prototype.netOf = function(ip) { return ipaddr.parse(ip).match(ipaddr.parseCIDR(this.toString())); };
 
   var router_servers = [
@@ -17,35 +28,56 @@ var rs_ctrl = (function () {
       url: 'http://141.193.21.2/routes6.json', 
       data: [],
       id: 0,
-      ipv6: true
+      ipv6: true,
+      loaded: false
     },
     { name: 'Hurricane Electric HK (IPv6)',
       url: 'http://123.103.252.145/routes.json',
       data: [],
       id: 1,
-      ipv6: true
+      ipv6: true,
+      loaded: false
     },
     { name: 'Vultr JP (IPv4)',
       url: 'http://141.193.21.2/routes.json',
       data: [],
       id: 2,
-      ipv6: false
+      ipv6: false,
+      loaded: false
     }
   ];
 
   var fetch_data = url => new Promise((res, rej) => {
-    var xhr = new XMLHttpRequest();
+    var pbar = document.getElementById('progress');
+    pbar.style.backgroundColor = '#444';
+    pbar.style.transition = '1s ease';
+    var xhr = new XMLHttpRequest()
+    var pcnt = 1;
     xhr.open('GET', url);
     xhr.onload = function () {
       if (this.status == 200) {
+        pbar.style.width = '100%';
+        pbar.style.transition = '.1s ease';
+        window.setTimeout(() => { pbar.style.width = '0'; }, 250);
         res(JSON.parse(xhr.response).filter(r => r.as_path));
       } else rej(xhr.statusText);
     };
     xhr.onerror = err => rej(err);
+    xhr.onprogress = e => {
+      if (pcnt < 90) pcnt+=3;
+      pbar.style.width = pcnt + '%';
+    };
     xhr.send();
   });
 
   router_servers.forEach(rs => {
+    var sel = document.createElement('option');
+    sel.setAttribute('value', rs.id);
+    sel.innerHTML = rs.name;
+    serv_id.appendChild(sel);
+  });
+
+   /* 
     fetch_data(rs.url).then(r => {
       rs.data = r;
       var sel = document.createElement('option');
@@ -57,16 +89,17 @@ var rs_ctrl = (function () {
       }
       sid_.appendChild(sel);
     });
-  });
+  });*/
 
   var get_routes = server_id => {
+    var rs = router_servers[server_id];
+    if (!rs.loaded) update_rs(router_servers[server_id], true);
     try {
-      var _rslt = router_servers[server_id].data.filter(r => eval(input.value));
-      input.className = '';
-      return _rslt;
+      return router_servers[server_id].data.filter(r => eval(input.value));
     } catch (e) {
       console.error('Filter Error: ' + e);
       input.className = 'error';
+      window.setTimeout(() => { input.className = ''; }, 250);
     }
   };
 

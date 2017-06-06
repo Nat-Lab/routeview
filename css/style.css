@@ -92,10 +92,10 @@ input#max_res {
   font-size: 20px;
   background-color: #ededed;
   padding: 15px;
-  -webkit-transition: .5s ease-out;
-  -moz-transition: .5s ease-out;
-  -o-transition: .5s ease-out;
-  transition: .5s ease-out;
+  -webkit-transition: .2s ease-out;
+  -moz-transition: .2s ease-out;
+  -o-transition: .2s ease-out;
+  transition: .2s ease-out;
 }
 
 .error {
@@ -166,4 +166,17 @@ div#view.disp_warp {
   padding-left: 12px;
   font-family: monospace;
   font-size: 16px;
+}
+
+div.progress_warp {
+  position: fixed;
+  width: 100%;
+  top:0;
+}
+
+div.progress {
+  transition: 1s ease;
+  height: 4px;
+  width：0；
+  background-color: #444;
 }
