@@ -49,6 +49,10 @@ table {
 *:before {
   box-sizing: border-box;
 }
+
+.filter_area {
+  white-space: nowrap;
+}
 		
 .filter_area .options_warp {
   padding-left: 12px;
@@ -96,6 +100,15 @@ input#max_res {
   -moz-transition: .2s ease-out;
   -o-transition: .2s ease-out;
   transition: .2s ease-out;
+}
+
+.filter_area input#input:focus, input#max_res:focus, select#server_id:focus {
+  -webkit-transition: .2s ease-out;
+  -moz-transition: .2s ease-out;
+  -o-transition: .2s ease-out;
+  transition: .2s ease-out;
+  outline: none;
+  background-color: #d3d3d3;
 }
 
 .error {
