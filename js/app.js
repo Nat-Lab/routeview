@@ -152,7 +152,7 @@ var rs_ctrl = (function () {
     } catch (e) {
       console.error('Filter Error: ' + e);
       input.className = 'error';
-      match_count.className = 'error match_count';
+      match_count.className = 'error_t match_count';
       match_count.innerHTML = e;
     }
   };

@@ -124,6 +124,8 @@ input#max_res {
   color: #fff !important;
 }
 
+.error_t { color: #fff !important; }
+
 .error::placeholder {
   color: #f2bbbb;
 }
