@@ -5,18 +5,23 @@ var rs_ctrl = (function () {
   var input = document.getElementById('input');
   var serv_id = document.getElementById('server_id');
   var max_rslt = document.getElementById('max_res');
+  var match_count = document.getElementById('match_count');
 
   var update_rs = (rs, uv) => {
     input.disabled = true;
+    serv_id.disabled = true;
+    max_rslt.disabled = true;
     fetch_data(rs.url).then(r => {
       rs.data = r;
       rs.loaded = true;
+      serv_id.disabled = false;
+      max_rslt.disabled = false;
       input.disabled = false;
       if (uv) update_view();
     });
   };
 
-  input.addEventListener('keydown', e => { input.className = ''; if(e.keyCode == 13) rs_ctrl.update_view() });
+  input.addEventListener('keydown', e => { match_count.className = 'match_count'; input.className = ''; if(e.keyCode == 13) rs_ctrl.update_view() });
   max_rslt.addEventListener('keydown', e => { if(e.keyCode == 13) rs_ctrl.update_view() });
   serv_id.addEventListener('change', () => {
     rs = router_servers[serv_id.value];
@@ -136,29 +141,18 @@ var rs_ctrl = (function () {
     serv_id.appendChild(sel);
   });
 
-   /* 
-    fetch_data(rs.url).then(r => {
-      rs.data = r;
-      var sel = document.createElement('option');
-      sel.setAttribute('value', rs.id);
-      sel.innerHTML = rs.name;
-      if (!loaded) {
-        loaded = true;
-        sid_.innerHTML = '';
-      }
-      sid_.appendChild(sel);
-    });
-  });*/
-
   var get_routes = server_id => {
     var rs = router_servers[server_id];
     if (!rs.loaded) update_rs(router_servers[server_id], true);
     try {
       var _res = router_servers[server_id].data.filter(r => eval(input.value));
+      match_count.innerHTML = _res.length + " Macthes";
       return _res;
     } catch (e) {
       console.error('Filter Error: ' + e);
       input.className = 'error';
+      match_count.className = 'error match_count';
+      match_count.innerHTML = e;
     }
   };
 

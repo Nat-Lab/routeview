@@ -121,7 +121,7 @@ input#max_res {
 
 .error {
   background-color: #f25544 !important;
-  color: #fff;
+  color: #fff !important;
 }
 
 .error::placeholder {
@@ -201,3 +201,13 @@ div.progress {
   width：0；
   background-color: #444;
 }
+
+span.match_count {
+  position: fixed;
+  right: 0;
+  padding: 10px;
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: bold;
+  color: #666;
+};
