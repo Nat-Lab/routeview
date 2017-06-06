@@ -1,5 +1,7 @@
 <html>
 <head>
+<title>Nato-RouteView</title>
+<script src='js/ipaddr.js'></script>
 <link rel="stylesheet" href="./css/style.css" type="text/css">
 </head>
 <body>
@@ -28,7 +30,9 @@
 
 r.route == '2001:470::/32' // show route to 2001:470::/32
 r.as_path.includes(6939) // show route w/ AS6939 in as_path
-if(r.bgp_community) r.bgp_community.include('65443:4134') // show route w/ community 65443:4134
+if(r.bgp_community) r.bgp_community.includes('65443:4134') // show route w/ community 65443:4134
+r.route.netOf('2001:470:17:24::2') // show route to address 2001:470:17:24::2
+
 </pre>
 </div>
 </div>

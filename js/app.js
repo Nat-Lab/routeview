@@ -10,6 +10,7 @@ var rs_ctrl = (function () {
 
   document.getElementById('input').addEventListener('keydown', e => { if(e.keyCode == 13) rs_ctrl.update_view() });
   document.getElementById('max_res').addEventListener('keydown', e => { if(e.keyCode == 13) rs_ctrl.update_view() });
+  String.prototype.netOf = function(ip) { return ipaddr.parse(ip).match(ipaddr.parseCIDR(this.toString())); };
 
   var router_servers = [
     { name: 'Vultr JP (IPv6)',
