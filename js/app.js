@@ -61,9 +61,12 @@ var rs_ctrl = (function () {
 
   var get_routes = server_id => {
     try {
-      return router_servers[server_id].data.filter(r => eval(input.value));
+      var _rslt = router_servers[server_id].data.filter(r => eval(input.value));
+      input.className = '';
+      return _rslt;
     } catch (e) {
       console.error('Filter Error: ' + e);
+      input.className = 'error';
     }
   };
 

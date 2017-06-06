@@ -92,6 +92,19 @@ input#max_res {
   font-size: 20px;
   background-color: #ededed;
   padding: 15px;
+  -webkit-transition: .5s ease-out;
+  -moz-transition: .5s ease-out;
+  -o-transition: .5s ease-out;
+  transition: .5s ease-out;
+}
+
+.error {
+  background-color: #f25544 !important;
+  color: #fff;
+}
+
+.error::placeholder {
+  color: #f2bbbb;
 }
 
 .query_button {

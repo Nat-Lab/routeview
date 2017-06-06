@@ -28,10 +28,20 @@
 <div class="intro">
 <pre><b>Example Query</b>
 
-r.route == '2001:470::/32' // show route to 2001:470::/32
-r.as_path.includes(6939) // show route w/ AS6939 in as_path
-if(r.bgp_community) r.bgp_community.includes('65443:4134') // show route w/ community 65443:4134
-r.route.netOf('2001:470:17:24::2') // show route to address 2001:470:17:24::2
+/* Show route of 2001:470::/32 */
+r.route == '2001:470::/32'
+
+/* Show route w/ 6939 in AS Path */
+r.as_path.includes(6939)
+
+/* show route w/ community 65443:4134 */
+if(r.bgp_community) r.bgp_community.includes('65443:4134')
+
+/* show route to address 2001:470:17:24::2 */
+r.route.netOf('106.185.35.122')
+
+/* Show route with community *:58453 or *:4134 */
+if(r.bgp_community) r.bgp_community.some(c =&gt; { return c.match(/:58453/) || c.match(/:4134/) })
 
 </pre>
 </div>
