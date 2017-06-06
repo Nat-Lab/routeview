@@ -7,7 +7,7 @@ var rs_ctrl = (function () {
   var max_rslt = document.getElementById('max_res');
   var match_count = document.getElementById('match_count');
 
-  var update_rs = (rs, uv) => {
+  var update_rs = (rs) => {
     input.disabled = true;
     serv_id.disabled = true;
     max_rslt.disabled = true;
@@ -17,16 +17,16 @@ var rs_ctrl = (function () {
       serv_id.disabled = false;
       max_rslt.disabled = false;
       input.disabled = false;
-      if (uv) update_view();
+      update_view();
     });
   };
 
-  input.addEventListener('keydown', e => { match_count.className = 'match_count'; input.className = ''; if(e.keyCode == 13) rs_ctrl.update_view() });
-  max_rslt.addEventListener('keydown', e => { if(e.keyCode == 13) rs_ctrl.update_view() });
-  serv_id.addEventListener('change', () => {
-    rs = router_servers[serv_id.value];
-    if (!rs.loaded) update_rs(router_servers[serv_id.value]);
+  input.addEventListener('keydown', e => { 
+    match_count.className = 'match_count'; 
+    input.className = ''; 
+    if(e.keyCode == 13) rs_ctrl.update_view() 
   });
+  max_rslt.addEventListener('keydown', e => { if(e.keyCode == 13) rs_ctrl.update_view() });
 
   String.prototype.netOf = function(ip) { return ipaddr.parse(ip).match(ipaddr.parseCIDR(this.toString())); };
 
@@ -143,10 +143,11 @@ var rs_ctrl = (function () {
 
   var get_routes = server_id => {
     var rs = router_servers[server_id];
-    if (!rs.loaded) update_rs(router_servers[server_id], true);
+    if (!rs.loaded) update_rs(router_servers[server_id]);
     try {
-      var _res = router_servers[server_id].data.filter(r => eval(input.value));
-      match_count.innerHTML = _res.length + " Macthes";
+      var rs = router_servers[server_id];
+      var _res = rs.data.filter(r => eval(input.value));
+      match_count.innerHTML = rs.loaded ? _res.length + " Macthes" : 'Downloading Routing Informations...';
       return _res;
     } catch (e) {
       console.error('Filter Error: ' + e);
