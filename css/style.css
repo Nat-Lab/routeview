@@ -237,3 +237,7 @@ span.match_count {
 .help_title {
   color: #fff;
 }
+
+.disp a {
+  text-decoration: none;
+}

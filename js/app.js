@@ -8,6 +8,8 @@ var rs_ctrl = (function () {
   var match_count = document.getElementById('match_count');
   var help = document.getElementById('help');
 
+  var asdb = [];
+
   var update_rs = (rs) => {
     input.disabled = true;
     serv_id.disabled = true;
@@ -107,11 +109,44 @@ var rs_ctrl = (function () {
     }
   ];
 
+  /* csv2arr: https://stackoverflow.com/questions/8493195/ */
+  var csv2arr = function (text) {
+    var re_valid = /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
+    var re_value = /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
+    if (!re_valid.test(text)) return null;
+    var a = [];
+    text.replace(re_value, (m0, m1, m2, m3) => {
+      if (m1 !== undefined) a.push(m1.replace(/\\'/g, "'"));
+      else if (m2 !== undefined) a.push(m2.replace(/\\"/g, '"'));
+      else if (m3 !== undefined) a.push(m3);
+      return '';
+    });
+    if (/,\s*$/.test(text)) a.push('');
+    return a;
+  };
+
+  [{url: './res/GeoIPASNum2.csv', key: 2},
+   {url: './res/GeoIPASNum2v6.csv', key: 0}].forEach(_asdb => {
+   var xhr = new XMLHttpRequest();
+   xhr.open('GET', _asdb.url);
+   xhr.onload = function () {
+      if (this.status == 200 || this.status == 0) {
+        xhr.response.split('\n').forEach(line => {
+          var as_info = csv2arr(line)[_asdb.key];
+          if (!as_info) return;
+          var this_as = Number.parseInt(as_info.split(' ')[0].replace(/AS/, ''));
+          asdb[this_as] = as_info.replace(/ /g, '&nbsp;');
+        });
+      }
+   };
+   xhr.send();
+  });
+
   var fetch_data = url => new Promise((res, rej) => {
     var pbar = document.getElementById('progress');
     pbar.style.backgroundColor = '#444';
     pbar.style.transition = '1s ease';
-    var xhr = new XMLHttpRequest()
+    var xhr = new XMLHttpRequest();
     var pcnt = 1;
     xhr.open('GET', url);
     xhr.onload = function () {
@@ -179,7 +214,7 @@ var rs_ctrl = (function () {
       tbody.appendChild(new tr([{c: 't_route', v: rou.route}]));
       tbody.appendChild(new tr([{c: 't_dhead', v: 'Via'}, {c: 't_var', v: rou.via}]));
       tbody.appendChild(new tr([{c: 't_dhead', v: 'Device'}, {c: 't_var', v: rou.dev}]));
-      tbody.appendChild(new tr([{c: 't_dhead', v: 'AS Path'}, {c: 't_var', v: rou.as_path.map(asn => `<a target="_blank" href="http://bgp.he.net/AS${asn}">AS${asn}</a>`).toString().replace(/,/g, ' ')}]));
+      tbody.appendChild(new tr([{c: 't_dhead', v: 'AS Path'}, {c: 't_var', v: rou.as_path.map(asn => `<a target="_blank" href="http://bgp.he.net/AS${asn}">${asdb[asn] ? asdb[asn] : "AS" + asn}</a>`).join('<br>')}]));
       tbody.appendChild(new tr([{c: 't_dhead', v: 'Nexthop'}, {c: 't_var', v: rou.next_hop.toString().replace(/,/g, ' ')}]));
       if (rou.bgp_community) tbody.appendChild(new tr([{c: 't_dhead', v: 'Community'}, {c: 't_var', v: rou.bgp_community.toString().replace(/,/g, ' ')}]));
       table.appendChild(tbody);

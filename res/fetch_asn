@@ -1,0 +1,10 @@
+#!/bin/bash
+
+[ -e GeoIPASNum2.zip ] && rm GeoIPASNum2.zip
+[ -e GeoIPASNum2v6.zip ] && rm GeoIPASNum2.zip
+
+wget -4 http://download.maxmind.com/download/geoip/database/asnum/GeoIPASNum2.zip
+wget -4 http://download.maxmind.com/download/geoip/database/asnum/GeoIPASNum2v6.zip
+
+unzip GeoIPASNum2.zip && rm GeoIPASNum2.zip
+unzip GeoIPASNum2v6.zip && rm GeoIPASNum2v6.zip
