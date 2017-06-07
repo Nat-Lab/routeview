@@ -78,20 +78,18 @@ var rs_ctrl = (function () {
       disabled: true
     },
     { name: 'Devcapsule UK (IPv4)',
-      url: 'http://141.193.21.4/routes6.json',
+      url: 'http://185.116.237.103/routes.json',
       data: [],
       id: 6,
       ipv6: false,
-      loaded: false,
-      disabled: true
+      loaded: false
     },
     { name: 'Devcapsule UK (IPv6)',
-      url: 'http://141.193.21.4/routes6.json',
+      url: 'http://185.116.237.103/routes6.json',
       data: [],
       id: 7,
       ipv6: true,
-      loaded: false,
-      disabled: true
+      loaded: false
     },
     { name: 'Choopa NY (IPv6)',
       url: 'http://141.193.21.3/routes6.json',
