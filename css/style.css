@@ -241,3 +241,7 @@ span.match_count {
 .disp a {
   text-decoration: none;
 }
+
+.disp a:hover {
+  text-decoration: underline;
+}

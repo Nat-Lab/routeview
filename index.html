@@ -28,6 +28,7 @@
 r.route :: <span class="code_type">String</span>
 r.as_path :: <span class="code_brk">[</span><span class="code_type">Integer</span><span class="code_brk">]</span>
 r.bgp_community :: <span class="code_brk">[</span><span class="code_type">String</span><span class="code_brk">]</span>
+asdb :: <span class="code_brk">[</span><span class="code_type">String</span><span class="code_brk">]</span> <span class="code_comm">-- where the key is ASN</span>
 
 <span class="help_title"># Example Queries</span>
 
@@ -44,13 +45,16 @@ if(r.bgp_community) r.bgp_community.includes(<span class="code_str">'65443:4134'
 r.route.netOf(<span class="code_str">'106.185.35.122'</span>)
 
 <span class="code_comm">/* Show route with community *:58453 or *:4134 */</span>
-if(r.bgp_community) r.bgp_community.some(c =&gt; <span class="code_brk">{</span> return c.match(<span class="code_re">/:58453/</span>) || c.match(<span class="code_re">/:4134/</span>) <span class="code_brk">}</span>)
+if(r.bgp_community) r.bgp_community.some(c =&gt; <span class="code_brk">{</span> <span class="code_type">return</span> c.match(<span class="code_re">/:58453/</span>) || c.match(<span class="code_re">/:4134/</span>) <span class="code_brk">}</span>)
 
 <span class="code_comm">/* Show route with a prefix less than /9 */</span>
 <span class="code_type">Number</span>.parseInt(r.route.split(<span class="code_str">'/'</span>)<span class="code_brk">[</span>1<span  class="code_brk">]</span>) &lt; 9
 
 <span class="code_comm">/* "real" as_path (as_path w/o prepend) &gt; 10 */</span>
 (r.as_path.filter((i, p, s) =&gt; s.indexOf(i) == p)).length &gt; 10
+
+<span class="code_comm">/* Show path to prefixes with "carnegie mellon" in it's AS descr */</span>
+r.as_path.some(a =&gt; <span class="code_brk">{</span> if(asdb<span class="code_brk">[</span>a<span class="code_brk">]</span>) <span class="code_type">return</span> asdb<span class="code_brk">[</span>a<span class="code_brk">]</span>.toLowerCase().includes(<span class="code_str">'carnegie mellon'</span>); <span class="code_brk">}</span>)
 
 </pre>
 </div>

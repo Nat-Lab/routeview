@@ -135,7 +135,7 @@ var rs_ctrl = (function () {
           var as_info = csv2arr(line)[_asdb.key];
           if (!as_info) return;
           var this_as = Number.parseInt(as_info.split(' ')[0].replace(/AS/, ''));
-          asdb[this_as] = as_info.replace(/ /g, '&nbsp;');
+          asdb[this_as] = as_info;
         });
       }
    };
