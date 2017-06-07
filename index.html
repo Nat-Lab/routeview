@@ -23,31 +23,34 @@
 </div>
 <div class="disp_warp" id="view">
 <div class="intro" id="help">
-<pre><b># Types</b>
+<pre><span class="help_title"># Types</span>
 
-r.route :: String
-r.as_path :: [Integer]
-r.bgp_community :: [String]
+r.route :: <span class="code_type">String</span>
+r.as_path :: <span class="code_brk">[</span><span class="code_type">Integer</span><span class="code_brk">]</span>
+r.bgp_community :: <span class="code_brk">[</span><span class="code_type">String</span><span class="code_brk">]</span>
 
-<b># Example Queries</b>
+<span class="help_title"># Example Queries</span>
 
-/* Show route of 2001:470::/32 */
-r.route == '2001:470::/32'
+<span class="code_comm">/* Show route of 2001:470::/32 */</span>
+r.route == <span class="code_str">'2001:470::/32'</span>
 
-/* Show route w/ 6939 in AS Path */
+<span class="code_comm">/* Show route w/ 6939 in AS Path */</span>
 r.as_path.includes(6939)
 
-/* show route w/ community 65443:4134 */
-if(r.bgp_community) r.bgp_community.includes('65443:4134')
+<span class="code_comm">/* show route w/ community 65443:4134 */</span>
+if(r.bgp_community) r.bgp_community.includes(<span class="code_str">'65443:4134'</span>)
 
-/* show route to address 2001:470:17:24::2 */
-r.route.netOf('106.185.35.122')
+<span class="code_comm">/* show route to address 2001:470:17:24::2 */</span>
+r.route.netOf(<span class="code_str">'106.185.35.122'</span>)
 
-/* Show route with community *:58453 or *:4134 */
-if(r.bgp_community) r.bgp_community.some(c =&gt; { return c.match(/:58453/) || c.match(/:4134/) })
+<span class="code_comm">/* Show route with community *:58453 or *:4134 */</span>
+if(r.bgp_community) r.bgp_community.some(c =&gt; <span class="code_brk">{</span> return c.match(<span class="code_re">/:58453/</span>) || c.match(<span class="code_re">/:4134/</span>) <span class="code_brk">}</span>)
 
-/* Show route with a prefix less than /9 */
-Number.parseInt(r.route.split('/')[1]) < 9
+<span class="code_comm">/* Show route with a prefix less than /9 */</span>
+<span class="code_type">Number</span>.parseInt(r.route.split(<span class="code_str">'/'</span>)<span class="code_brk">[</span>1<span  class="code_brk">]</span>) &lt; 9
+
+<span class="code_comm">/* "real" as_path (as_path w/o prepend) &gt; 10 */</span>
+(r.as_path.filter((i, p, s) =&gt; s.indexOf(i) == p)).length &gt; 10
 
 </pre>
 </div>

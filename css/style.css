@@ -212,4 +212,28 @@ span.match_count {
   font-size: 14px;
   font-weight: bold;
   color: #666;
-};
+}
+
+.code_comm {
+  color: #66ccff;
+}
+
+.code_str {
+  color: #ee7722;
+}
+
+.code_brk {
+  color: #99d140;
+}
+
+.code_re {
+  color: #cc4455;
+}
+
+.code_type {
+  color: #bbffcc;
+}
+
+.help_title {
+  color: #fff;
+}
