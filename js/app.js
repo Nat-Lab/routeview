@@ -98,16 +98,14 @@ var rs_ctrl = (function () {
       data: [],
       id: 8,
       ipv6: true,
-      loaded: false,
-      disabled: true
+      loaded: false
     },
     { name: 'Choopa NY (IPv4)',
       url: 'http://141.193.21.3/routes.json',
       data: [],
       id: 9,
       ipv6: false,
-      loaded: false,
-      disabled: true
+      loaded: false
     }
   ];
 
