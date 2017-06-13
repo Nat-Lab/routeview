@@ -35,7 +35,7 @@ var rs_ctrl = (function () {
 
   var router_servers = [
     { name: 'Hurricane Electric HK (IPv6)',
-      url: 'http://123.103.252.145/routes.json',
+      url: 'http://27.0.232.28/routes6.json',
       data: [],
       id: 0,
       ipv6: true,
