@@ -179,7 +179,7 @@ var rs_ctrl = (function () {
     try {
       var rs = router_servers[server_id];
       var _res = rs.data.filter(r => eval(input.value));
-      match_count.innerHTML = rs.loaded ? _res.length + ' Macthes' : 'Downloading Routing Informations...';
+      match_count.innerHTML = rs.loaded ? _res.length + ' Matches' : 'Downloading Routing Informations...';
       if (rs.loaded) help.style.display = _res.length > 0 ? 'none' : '';
       return _res;
     } catch (e) {
