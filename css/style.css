@@ -200,7 +200,7 @@ div.progress_warp {
 div.progress {
   transition: 1s ease;
   height: 4px;
-  width：0；
+  width：0;
   background-color: #444;
 }
 
