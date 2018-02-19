@@ -34,77 +34,32 @@ var rs_ctrl = (function () {
   String.prototype.netOf = function(ip) { return ipaddr.parse(ip).match(ipaddr.parseCIDR(this.toString())); };
 
   var router_servers = [
-    { name: 'Hurricane Electric CN-HK (IPv6)',
-      url: 'http://27.0.232.28/routes6.json',
-      data: [],
-      id: 0,
-      ipv6: true,
-      loaded: false
-    },
-    { name: 'Hurricane Electric US-NY (IPv6)',
-      url: 'http://141.193.21.3/routes6_he.json',
-      data: [],
-      id: 1,
-      ipv6: true,
-      loaded: false,
-      disabled: true
-    },
     { name: 'Choopa JP-TKY (IPv6)',
       url: 'http://141.193.21.2/routes6.json',
       data: [],
-      id: 2,
+      id: 0,
       ipv6: true,
       loaded: false
     },
     { name: 'Choopa JP-TKY (IPv4)',
       url: 'http://141.193.21.2/routes.json',
       data: [],
-      id: 3,
+      id: 1,
       ipv6: false,
       loaded: false
-    },
-    { name: 'Internap JP-OSK (IPv4)',
-      url: 'http://141.193.21.1/routes.json',
-      data: [],
-      id: 4,
-      ipv6: false,
-      loaded: false,
-      disabled: true
-    },
-    { name: 'Internap JP-OSK (IPv6)',
-      url: 'http://141.193.21.1/routes6.json',
-      data: [],
-      id: 5,
-      ipv6: true,
-      loaded: false,
-      disabled: true
     },
     { name: 'Choopa US-NY (IPv6)',
       url: 'http://141.193.21.3/routes6.json',
       data: [],
-      id: 6,
+      id: 2,
       ipv6: true,
       loaded: false
     },
     { name: 'Choopa US-NY (IPv4)',
       url: 'http://141.193.21.3/routes.json',
       data: [],
-      id: 7,
+      id: 3,
       ipv6: false,
-      loaded: false
-    },
-    { name: 'Misaka Network RU-LED (IPv4)',
-      url: 'http://185.209.85.111/routes.json',
-      data: [],
-      id: 8,
-      ipv6: false,
-      loaded: false
-    },
-    { name: 'Misaka Network RU-LED (IPv6)',
-      url: 'http://185.209.85.111/routes6.json',
-      data: [],
-      id: 9,
-      ipv6: true,
       loaded: false
     }
   ];
